@@ -11,8 +11,10 @@ ordinary Monday behaviour would produce anyway?
 
 ## Current status
 
-**VALIDATION — complete for the literal hypothesis, controls, cross-market, session,
-temporal and placebo tests. Entry research complete and negative.**
+**AWAITING INDEPENDENT REVIEW.** First-pass evidence package complete: literal hypothesis,
+controls, geometric and permutation tests, cross-market and cross-vendor replication, session
+and temporal robustness, frozen dev/validation split, Monday path anatomy, and a first round of
+economic tests. No further hypothesis expansion or strategy optimisation until review.
 
 ## Data universe
 
@@ -55,13 +57,21 @@ temporal and placebo tests. Entry research complete and negative.**
 5. **Friday is only modestly special.** The identical construction on Mon→Tue … Thu→Fri also
    produces large raw uplifts; after control, only the US-index Friday→Monday cell stays
    clearly significant, at roughly 3× the coefficient of the other weekday pairs.
-6. **It does not convert into a trade.** Even in triggered weeks Monday reaches Friday's
-   *high* more often than Friday's *low* (53.5% vs 46.5%, RTH); 76% of the touches that do
-   happen occur inside the first hour, mostly at the open; and the trigger systematically
-   selects the *worst* payoff geometry — median reward:risk available at Friday's close is
-   **0.75R**. Every fixed-R short construction tested has **negative expectancy before costs**.
+6. **The simple trade constructions tested were not economically viable.** Of 40 triggered
+   construction-cells, none showed positive expectancy; 11 were significantly negative and the
+   rest were indistinguishable from zero. Three structural features explain why: even in
+   triggered weeks Monday reaches Friday's *high* more often than its *low* (53.5% vs 46.5%,
+   RTH) and the low is reached *first* only 41% of the time; 76% of the touches that do happen
+   occur inside the first hour, mostly at the open; and the trigger systematically selects the
+   *worst* payoff geometry — median reward:risk available at Friday's close is **0.75R** versus
+   2.60R for non-triggered Fridays. **This is not a claim that no tradeable exploitation
+   exists** — only directional short constructions were tested.
 
-**Final classification: PARTIALLY SUPPORTED (statistically), NOT SUPPORTED (economically).**
+**Final classification: PARTIALLY SUPPORTED.** Statistically supported for US equity indices,
+Friday → Monday, at roughly a fifth of the claimed magnitude; not supported for any other
+market, scale or weekday; and **not yet demonstrated to provide an economically tradeable
+implementation** — 20 directional short constructions were tested and none showed positive
+expectancy, but the search was deliberately not expanded beyond them.
 
 ## Most important evidence
 
@@ -70,10 +80,12 @@ temporal and placebo tests. Entry research complete and negative.**
 | Literal hypothesis by instrument / session / dataset | [`results/core_results.csv`](results/core_results.csv) |
 | Base rate, opposite condition, upside symmetry, adjacent weekdays, weekly & intraday analogues, placebo | [`results/controls.csv`](results/controls.csv) |
 | Year-by-year, session definitions, frozen dev/validation | [`results/robustness.csv`](results/robustness.csv) |
+| Monday intraday path: first arrival, time-to-touch, MFE/MAE | [`results/monday_path.csv`](results/monday_path.csv) |
 | Strategy expectancy by construction | [`results/strategy_expectancy.csv`](results/strategy_expectancy.csv) |
 | Tolerance ladder — where ">90%" comes from | [`results/tolerance_ladder.csv`](results/tolerance_ladder.csv) |
 | Effective independence of the replication | [`results/independence.csv`](results/independence.csv) |
 | **Principal research report** | [`research/REPORT.md`](research/REPORT.md) |
+| **Methods — data, sessions, DST, definitions, statistics, reproduction** | [`research/METHODS.md`](research/METHODS.md) |
 | Full interpretation, by evidence status | [`research/current_findings.md`](research/current_findings.md) |
 | What was tested and what happened | [`research/test_log.md`](research/test_log.md) |
 | Provenance of the claim (what Hougaard actually said) | [`research/provenance.md`](research/provenance.md) |
@@ -94,7 +106,8 @@ year-by-year, time-to-touch, first arrival, strategy expectancy, payoff geometry
 
 ## Next analytical step
 
-Research on the literal hypothesis is complete. Remaining optional work: source a Dow cash
-series to test Hougaard's exact instrument, and test whether the surviving US-index residual
-is monetisable in any *non-short* form (e.g. as a volatility or range filter rather than a
-directional signal).
+**None — the package is submitted for independent review.** Research is paused pending that
+review. Candidates for a subsequent mandate, not yet begun: source a Dow cash series to test
+Hougaard's exact instrument; test whether the US-index residual is monetisable in any
+non-directional form; test entries inside the first 30 minutes of Monday, where most of the
+measured movement occurs.

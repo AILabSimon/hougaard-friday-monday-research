@@ -28,12 +28,16 @@ definition, is positive in 11/11 and 26/27 individual years, and passes a frozen
 development/validation split. That is a genuine conditional regularity, and to that extent
 Hougaard is right about the market he trades.
 
-But it is not money. Even in triggered weeks Monday reaches Friday's **high** more often than
-Friday's **low** (53.5% vs 46.5%). Three quarters of the touches that do occur happen inside
-the first hour, most of them at the open. And the trigger systematically selects the setups
-with the *worst* payoff geometry: median reward-to-risk available at Friday's close is 0.75R,
-against 2.60R for the non-triggered Fridays. Every fixed-R short construction tested loses
-money before costs.
+But we could not turn it into money. Twenty directional short constructions were tested across
+three families; none showed positive expectancy, eleven of forty triggered construction-cells
+were significantly negative, and the rest were indistinguishable from zero. Three structural
+features explain the failure: even in triggered weeks Monday reaches Friday's **high** more
+often than its **low** (53.5% vs 46.5%) and reaches the low *first* only 41% of the time;
+three quarters of the touches that do occur happen inside the first hour, most at the open;
+and the trigger systematically selects the setups with the *worst* payoff geometry — median
+reward-to-risk available at Friday's close is 0.75R against 2.60R for non-triggered Fridays.
+That is a strong argument that this particular trade does not work. It is **not** a proof that
+no exploitation of the residual exists, and this report does not make that claim.
 
 Finally, the study offers a specific explanation for the gap between Hougaard's figures and
 every systematic test including his own later one. His loosest wording — *"or at least making a
@@ -44,8 +48,9 @@ is not.
 
 **Final classification: PARTIALLY SUPPORTED.**
 Statistically supported for US equity indices, Friday → Monday, at roughly a fifth of the
-claimed magnitude. Not supported for any other market, scale or weekday. Not supported as a
-tradeable strategy anywhere.
+claimed magnitude. Not supported for any other market, scale or weekday. Not yet demonstrated
+to provide an economically tradeable implementation — the directional short constructions
+tested all failed, and the strategy search was deliberately not expanded beyond them.
 
 ---
 
@@ -197,7 +202,7 @@ So Outcome E of the original brief is the right description of the general case 
 failed-extreme/next-bar continuation *appearance* that is mostly tautological — with Outcome D
 applying narrowly to US equity indices.
 
-### 4.6 Monday's anatomy, and why the trade fails
+### 4.6 Monday's anatomy, and why the trades tested fail
 
 - **First arrival.** On triggered Mondays (RTH, US indices) Friday's **high** is reached 53.5%
   of the time and Friday's **low** 46.5%. The low is reached *first* in only 41.1% of triggered
@@ -211,13 +216,25 @@ applying narrowly to US equity indices.
   is **0.75R** for triggered weeks versus **2.60R** for non-triggered weeks. The setup
   self-selects the worst-shaped trades.
 - **Expectancy.** Short at Friday's close, TP Friday low, SL Friday high: 41.1% TP, 48.8% SL,
-  at 0.75R. Short at Monday's open with the same levels: mean −0.115R. Short at Monday's open
-  with ATR stops of 0.5/0.75/1.0 and targets of 1R–3R: mean **−0.03R to −0.10R triggered** and
-  −0.10R to −0.18R untriggered — *every* cell negative, before costs. Costs add another 2–3% of
-  a 0.5-ATR stop per round trip.
+  at 0.75R, median R −0.52. Short at Monday's open with the same levels: mean −0.115R
+  (95% CI −0.31 to +0.08). Short at Monday's open with ATR stops of 0.5/0.75/1.0 and targets of
+  1R–3R: mean −0.03R to −0.10R triggered, −0.10R to −0.18R untriggered. Across all asset
+  classes, 23 of 40 triggered cells have negative point estimates and 11 have 95% intervals
+  strictly below zero; none has an interval above zero except two E1 cells that are artefacts
+  (below). Costs add another 2–3% of a 0.5-ATR stop per round trip.
+- **A defect in our own test, recorded not buried.** E1 and E2 divide profit by
+  `Friday high − entry`, which is unbounded below; when Friday closes near its high the
+  denominator can be under 0.01 ATR and a single trade returns R > 100 (max observed 1321).
+  E1's *mean* R is therefore not a usable expectancy estimate — trimming the top 5% turns RTH
+  FX from +0.55 to −0.17, and medians are negative in 15 of 16 cells. The two cells whose mean
+  R is significantly positive (RTH FX and RTH commodities, triggered) sit in asset classes
+  where the trigger carries no information at all, and their non-triggered counterparts score
+  higher still. The tradeability conclusion rests on E3, which floors the stop distance, and on
+  the structural evidence above.
 
 The trigger is genuinely informative — triggered shorts lose less than untriggered shorts — but
-being less bad at shorting a rising market is not an edge.
+being less bad at shorting a rising market is not an edge, and nothing tested converted the
+information into positive expectancy.
 
 ### 4.7 The strongest possible reading of the claim, and why it fails too
 
@@ -251,9 +268,9 @@ him revising the figure down to 62% once he counted more carefully.
 | FX / metals / oil / crypto versions | Fully reproduced by the placebo. Artefact |
 | `≤` instead of `<` on the highs | Changes the hit rate by 0.001 |
 | Hougaard's holiday asterisk (allow Tuesday) | *Reduces* the uplift, 0.171 → 0.160 |
-| Short at Friday's close to Friday's low | 0.75R available, 41% hit. Expectancy ≈ 0, outlier-driven |
+| Short at Friday's close to Friday's low | 0.75R available, 41% hit, median R −0.52. Mean R unusable — see the E1 denominator defect |
 | Short at Monday's open, structural stop | −0.115R |
-| Short at Monday's open, fixed ATR stop, 1–3R | Negative in all 12 cells tested |
+| Short at Monday's open, fixed ATR stop, 1–3R | Negative point estimate in all 12 cells; significantly negative in 3 |
 
 ---
 
@@ -274,6 +291,11 @@ The places this study could be wrong, in order of how much they would change the
 4. **Effective sample size.** The four US index series are ≈0.75 correlated. Read the pooled N
    as substantially smaller than it appears.
 
+5. **The strategy search was narrow, deliberately.** Three families of directional short, 20
+   variants. The brief's instruction was not to expand the search in order to defend a negative,
+   so we did not. Nothing here rules out a non-directional construction, an entry inside
+   Monday's first 30 minutes, or use of the trigger as a filter on some other strategy.
+
 If none of those overturns it, the conclusion stands: the behaviour is real in US equity
 indices, roughly a fifth as strong as advertised, not specific to Friday in any other market,
-and not tradeable as a Monday short.
+and not exploitable by any of the simple Monday-short constructions tested here.

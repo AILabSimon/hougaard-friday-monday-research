@@ -95,24 +95,58 @@ bar seeks this bar's high") is equally strong or stronger everywhere (e.g. BROKE
 down +0.143 vs up +0.186). A directional mechanism specific to Fridays is not what the data
 looks like. Evidence: `results/controls.csv`, `charts/02_adjacent_weekday.png`.
 
-### V7 — The phenomenon is not tradeable in the form implied
-- **First arrival.** On triggered Mondays (RTH, US indices) Monday reaches Friday's **high**
-  53.5% of the time and Friday's **low** 46.5%. Low-first only 41.1%. Given both are reached,
-  the low comes first in 46.8% of cases — a coin flip. `charts/06_first_arrival.png`
-- **Timing.** Of the Mondays that do touch, **76% touch within the first 60 minutes** and 70%
-  within 30 minutes; the median touch occurs at the very open. The information is consumed
-  before it can be acted on. `charts/05_time_to_touch.png`
-- **Payoff geometry.** Because the trigger selects Fridays that closed near their low, the
-  median reward:risk available at Friday's close (target = Friday low, invalidation = Friday
-  high) is only **0.75R** for triggered weeks, against 2.60R for non-triggered weeks. The
-  trigger systematically picks the worst-shaped trades. `charts/08_payoff_geometry.png`
-- **Expectancy.** Shorting at Friday's close with TP = Friday low and SL = Friday high wins
-  41.1% and loses 48.8% (RTH, US indices). Every fixed-R construction (stop 0.5/0.75/1.0 ATR,
-  target 1–3R) shorting Monday's open has **negative mean R before costs**, triggered
-  (−0.03 to −0.10) or not (−0.10 to −0.18). Triggered is *less bad* than non-triggered — the
-  conditional information is real — but "less bad at shorting an uptrend" is not an edge.
-  `results/strategy_expectancy.csv`, `charts/07_strategy_expectancy.png`
+### V7 — The simple trade constructions tested were not economically viable, and there are structural reasons why
+This is a narrower claim than "the phenomenon is not tradeable", and the distinction matters.
+What the evidence establishes is: (a) three families of construction, 20 variants, all shorts,
+all failed; and (b) three structural features that explain why and that would obstruct most
+similar constructions. It does **not** establish that no exploitation of the residual exists.
 
+**The structural obstacles** (`results/monday_path.csv`):
+- **First arrival.** On triggered Mondays (RTH, US indices, n = 467) Friday's **high** is
+  reached 53.5% of the time and Friday's **low** 46.5%. The low is reached *first* in only
+  41.1%; the high first in 48.8%. Given both are reached, the low comes first 46.8% of the
+  time. The hypothesis names the less likely destination.
+- **Timing.** Of the Mondays that do touch, **76.5% touch within 60 minutes** of the RTH open
+  and 70% within 30; the median touch is at the open itself. Median MAE before the touch is
+  0.07 ATR — the move is essentially already complete when it starts.
+- **Payoff geometry.** Because the trigger selects Fridays that closed near their low, median
+  reward:risk available at Friday's close (target Friday low, invalidation Friday high) is
+  **0.75R** for triggered weeks against **2.60R** for non-triggered. The setup self-selects the
+  worst-shaped trades. `charts/08_payoff_geometry.png`
+
+**The constructions** (`results/strategy_expectancy.csv`, definitions in `METHODS.md` §7):
+
+| | US indices RTH, triggered | 95% CI on mean R |
+|---|---|---|
+| E1 short Friday close → Friday low, stop Friday high | mean +0.26, **median −0.52**, trimmed mean −0.31 | (−0.05, +0.58) |
+| E2 short Monday open → Friday low, stop Friday high | mean −0.115, median −0.49 | (−0.31, +0.08) |
+| E3 short Monday open, 0.5 ATR stop / 0.5 ATR target | mean −0.096 | (−0.172, −0.020) |
+| E3, 0.5/1.0 ATR (2R) | mean −0.054 | (−0.147, +0.038) |
+| E3, 0.75/1.5 ATR (2R) | mean −0.030 | (−0.101, +0.041) |
+| E3, 1.0/2.0 ATR (2R) | mean −0.039 | (−0.095, +0.018) |
+
+**Stated precisely:** of 40 triggered construction-cells across all asset classes, 23 have a
+negative point estimate and **11 have a 95% interval strictly below zero**; none of the 16
+US-index triggered cells has an interval above zero, 14 of 16 have negative point estimates,
+and 3 are significantly negative. So the correct statement is *no construction tested showed
+positive expectancy, several were significantly negative, and the rest were indistinguishable
+from zero* — not *every construction is a proven loser*.
+
+The triggered constructions are consistently **less bad** than their non-triggered
+counterparts, which is the conditional information of V3 showing up in P&L. It is not enough
+to flip expectancy positive in anything tested.
+
+**A defect in our own E1/E2 test, recorded rather than buried.** Their risk denominator
+(`Friday high − entry`) is unbounded below: when Friday closes near its high it can be under
+0.01 ATR, producing single-trade R values above 100 (max observed 1321). E1's *mean* R is
+therefore dominated by a handful of observations and is not a usable expectancy estimate —
+dropping the top 5% turns RTH FX from +0.55 to −0.17. Two cells (RTH FX and RTH commodities,
+E1 triggered) show a mean R whose CI excludes zero on the positive side; both have negative
+medians, both are outlier-driven, both sit in asset classes where the trigger carries **no**
+information (V2), and in both the *non-triggered* version scores higher still. They are
+artefacts of the normalisation, not edges. `mean_R_trim5`, `max_R` and `risk_atr_p05` are now
+carried in the CSV so this is visible. E3 floors the stop distance and is the construction the
+tradeability conclusion actually rests on.
 
 ### V8 — The ">90%" is reachable, but only at a tolerance that destroys the information
 Hougaard's own loosest wording is *"the lows of Friday should be surpassed **or at least making
@@ -157,6 +191,12 @@ effective N several times smaller. Evidence: `results/independence.csv`.
 
 ## PROVISIONAL
 
+- **P0 — Whether the US-index residual can be monetised at all is OPEN, not settled.** V7
+  establishes that three families of directional short failed and gives structural reasons.
+  It does not establish that no construction works. Untested: anything non-directional, any
+  entry inside the first 30 minutes of Monday (where most of the movement happens), options
+  structures, and use of the trigger as a filter on an unrelated strategy rather than as a
+  signal in itself.
 - **P1 — The US-index residual is a downside-reach effect, not a return effect.** Conditional
   on the trigger, Monday's net excursion (down-from-open minus up-from-open) is 0.07 ATR more
   negative (p ≈ 0.08 RTH, 0.14 YF) but Monday's *close-to-open return* is not significantly
@@ -189,7 +229,8 @@ effective N several times smaller. Evidence: `results/independence.csv`.
 - **F7 — Hougaard's variants do not matter.** `<` vs `≤` on the highs changes the hit rate by
   0.001. Allowing Tuesday fulfilment when Monday is a holiday (his "asterisk") changes it by
   0.002 and *reduces* the uplift from 0.171 to 0.160.
-- **F8 — Shorting the setup is not profitable.** See V7.
+- **F8 — Every short construction tested (E1, E2, E3 — 20 variants) failed to show positive
+  expectancy.** See V7 for the precise statement and for a defect in E1/E2's R-normalisation.
 
 ---
 
@@ -248,7 +289,15 @@ effective N several times smaller. Evidence: `results/independence.csv`.
 4. **Adjacent-weekday comparison.** We treat "the same effect exists on other weekday pairs" as
    evidence against Friday being special. But the US-index Friday coefficient is ~3× the other
    days'. Is that difference itself the finding, and are we under-weighting it?
-5. **Multiple testing.** Confirmatory tests were specified before results (HF-001…HF-008 in
+5. **Is the economic conclusion stated at the right strength?** We have narrowed it from "not
+   tradeable" to "the 20 directional short constructions tested showed no positive expectancy,
+   and three structural features explain why". Is that still too strong given that 29 of 40
+   triggered cells have confidence intervals spanning zero? Conversely, is it too weak given
+   the first-arrival and payoff-geometry evidence, which is structural rather than statistical?
+6. **The E1 denominator defect.** We flagged it ourselves rather than dropping the test. Is
+   reporting `mean_R_trim5` alongside `mean_R` the right treatment, or should E1/E2 be removed
+   from the evidence base entirely as unidentified?
+7. **Multiple testing.** Confirmatory tests were specified before results (HF-001…HF-008 in
    `test_log.md`). The asset-class split that produced the US-index finding was pre-specified
    as a robustness dimension, not chosen after seeing results — but there are 4 asset groups ×
    5 session definitions. Is the US-index result adequately protected by the frozen validation

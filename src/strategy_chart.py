@@ -34,7 +34,7 @@ for ax,grp in zip(axes,["US_INDEX","FX"]):
     ax.axhline(0,c="k",lw=.9); ax.set_xticks(x); ax.set_xticklabels(cons,rotation=25,fontsize=7.5)
     ax.set_title(f"{grp} — short at Monday RTH open")
 axes[0].set_ylabel("mean R per trade (before costs)"); axes[0].legend(fontsize=7.5)
-fig.suptitle("Every fixed-R short construction loses money, triggered or not",y=1.03)
+fig.suptitle("No fixed-R short construction tested reached positive expectancy, triggered or not (gross of costs)",y=1.03)
 fig.tight_layout(); fig.savefig(CH/"07_strategy_expectancy.png",bbox_inches="tight"); plt.close(fig)
 
 # R available at Friday's close
