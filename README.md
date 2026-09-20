@@ -11,10 +11,18 @@ ordinary Monday behaviour would produce anyway?
 
 ## Current status
 
-**AWAITING INDEPENDENT REVIEW.** First-pass evidence package complete: literal hypothesis,
-controls, geometric and permutation tests, cross-market and cross-vendor replication, session
-and temporal robustness, frozen dev/validation split, Monday path anatomy, and a first round of
-economic tests. No further hypothesis expansion or strategy optimisation until review.
+**CYCLE 2 COMPLETE — AWAITING INDEPENDENT REVIEW.**
+Cycle 1 established the statistical effect (literal hypothesis, controls, geometric and
+permutation tests, cross-market and cross-vendor replication, session and temporal robustness,
+frozen dev/validation split). Cycle 2 asked whether it converts into a mechanical setup.
+
+**Cycle 2 verdict: Outcome B — STATISTICAL EFFECT ONLY.** The effect survives dependence-aware
+inference, but it is a *level-position* effect delivered by the weekend gap, not a *path*
+effect. Under Hougaard's own RTH definition roughly four-fifths of the uplift is Friday's low
+already being gone at the opening bell; the component a trader could act on is +3.8pp,
+p = 0.225. Within the tradeable state the trigger changes nothing about Monday's timing,
+direction, sequencing or opening-range behaviour. No entry construction reached positive
+expectancy after costs. See [`research/cycle2_findings.md`](research/cycle2_findings.md).
 
 ## Data universe
 
@@ -84,7 +92,8 @@ expectancy, but the search was deliberately not expanded beyond them.
 | Strategy expectancy by construction | [`results/strategy_expectancy.csv`](results/strategy_expectancy.csv) |
 | Tolerance ladder — where ">90%" comes from | [`results/tolerance_ladder.csv`](results/tolerance_ladder.csv) |
 | Effective independence of the replication | [`results/independence.csv`](results/independence.csv) |
-| **Principal research report** | [`research/REPORT.md`](research/REPORT.md) |
+| **Cycle 2 findings (latest)** | [`research/cycle2_findings.md`](research/cycle2_findings.md) |
+| **Principal research report (Cycle 1)** | [`research/REPORT.md`](research/REPORT.md) |
 | **Methods — data, sessions, DST, definitions, statistics, reproduction** | [`research/METHODS.md`](research/METHODS.md) |
 | Full interpretation, by evidence status | [`research/current_findings.md`](research/current_findings.md) |
 | What was tested and what happened | [`research/test_log.md`](research/test_log.md) |
@@ -92,6 +101,24 @@ expectancy, but the search was deliberately not expanded beyond them.
 
 Charts: [`charts/`](charts/) — conditional vs base rate, adjacent-weekday comparison, placebo,
 year-by-year, time-to-touch, first arrival, strategy expectancy, payoff geometry.
+
+## Cycle 2 headline
+
+| | triggered | opposite | Δ | p |
+|---|---|---|---|---|
+| Monday touches Friday's low (RTH) | 0.465 | 0.293 | +0.171 | <0.001 |
+| …level already gone at the open | 0.233 | 0.100 | +0.133 | <0.001 |
+| …**travelled to during Monday** | 0.231 | 0.193 | **+0.038** | **0.225** |
+
+Within the tradeable state (Monday opens at/above Friday's low) only 2 of 16 path measures
+differ: eventual touch rate (+8.7pp) and max down-excursion (+0.117 ATR). Timing, direction,
+sequencing and opening-range break direction are all unchanged. 42 entry-construction cells
+across three families produced **no** positive expectancy after costs, and the trigger's
+economic contribution was insignificant in every one.
+
+One thread is preserved rather than dismissed: the tradeable-state path effect is concentrated
+entirely in **2021–2026** (touch uplift +13.5pp, p = 0.008) and is absent in 2016–2020
+(+3.1pp, p = 0.59). See C2-P1 in the Cycle 2 findings.
 
 ## Evidence held locally, not in this repository
 
@@ -108,6 +135,9 @@ forbids uploading candle history.
 | `derived/triples/triples_weekly.parquet` | 6 602 rows | weekly-scale triples |
 | `derived/triples/triples_session3.parquet` | 100 253 rows | Asia/London/NY session-block triples |
 | `derived/monday_paths.parquet` | 12 908 rows | per-Monday 1m path: first-touch minutes, MFE/MAE, MAE-before-touch |
+| `derived/c2_monday_path.parquet` | 2 112 rows, 150 cols | Cycle 2: Monday opening path — location, 5/15/30/60-min excursions, opening ranges and breaks, level first-touch, post-touch behaviour, sequence label |
+| `derived/c2_friday_path.parquet` | 2 112 rows | Cycle 2: how Friday developed — timing of its high, closest approach to Thursday's high, last-hour return |
+| `derived/c2_grid.parquet` | 2 112 rows | Cycle 2: first-touch minute on grids anchored to Monday's open (±3 ATR) and Friday's low (±2 ATR) |
 | `derived/monday_grid.parquet` | 4 325 rows, 91 cols | first-touch minute on the ±3 ATR level grid (NAS100, US500, EURUSD, GBPUSD) — the input to E3 |
 | the canonical 1-minute store | 4.6 GB | read-only source, untouched |
 
@@ -127,8 +157,9 @@ the relevant `derived/*.parquet` — they are small enough to transfer individua
 
 ## Next analytical step
 
-**None — the package is submitted for independent review.** Research is paused pending that
-review. Candidates for a subsequent mandate, not yet begun: source a Dow cash series to test
-Hougaard's exact instrument; test whether the US-index residual is monetisable in any
-non-directional form; test entries inside the first 30 minutes of Monday, where most of the
-measured movement occurs.
+**None — Cycle 2 is submitted for independent review.** Research is paused pending that review.
+
+Candidates for a subsequent mandate, not begun: a non-directional construction exploiting the
+one surviving path feature (+0.117 ATR of extra down-reach with unchanged up-reach in the
+tradeable state); ES/NQ intraday history to triple the independent time span for path work;
+a Dow cash series to test Hougaard's exact instrument.

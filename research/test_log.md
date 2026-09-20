@@ -35,3 +35,26 @@ used to select the relationship.
 | HF-026 | Is the US-index residual monetisable in a non-directional form? | Exploratory | **NOT STARTED** — deliberately not expanded pending review | — | — |
 | HF-028 | Entries inside Monday's first 30 minutes, where most of the measured movement occurs | Exploratory | **NOT STARTED** | — | — |
 | HF-027 | Dow Jones cash replication | — | **BLOCKED** | No DJIA series in the data library. | — |
+
+## Cycle 2 (from commit 97fca1c)
+
+| ID | Question | Type | Status | Result | Evidence |
+|---|---|---|---|---|---|
+| HF-101 | Does the US-index residual survive week-clustered inference? | Confirmatory | COMPLETE | YES, with wider intervals. Cluster SE = 1.22-1.27x naive. Pooled RTH p=0.012; ES+NQ p=0.003; NAS100 alone p=0.028; US500 alone p=0.062. | `results/stageA_dependence.csv` |
+| HF-102 | Does it survive per-regime? | Confirmatory | COMPLETE | **Only 1 of 4 regimes individually significant** (2013-19 p=0.018); all four point estimates positive. Frozen Yahoo validation window alone p=0.071. | `results/stageA_dependence.csv` |
+| HF-103 | Do Thursday structure variables explain Monday heterogeneity? | Exploratory | COMPLETE | **FALSIFIED.** Nothing from Thursday survives, raw or controlled. | `results/stageB_structure.csv` |
+| HF-104 | Do Friday structure / Friday-vs-Thursday interaction variables add information beyond close-in-range? | Exploratory | COMPLETE | **FALSIFIED.** 1 of 168 associations survives BH and does not replicate across session definitions. No filter justified. | `results/stageB_partial.csv` |
+| HF-105 | Does the trigger change Monday's opening location? | Confirmatory | COMPLETE | YES but via geometry: opens below Friday's range 23.3% vs 10.0% (p<0.001) while the gap ITSELF is unchanged (p=0.92). | `results/stageC_path.csv` |
+| HF-106 | Gap-consumed vs travelled-to decomposition | Confirmatory | COMPLETE | **The central Cycle-2 result.** RTH: total +0.171, gap-consumed +0.133 (p<0.001), travelled-to +0.038 (**p=0.225, n.s.**). | `results/stageC_path.csv`, `charts/c2_01` |
+| HF-107 | Does the trigger change Monday's direction? | Confirmatory | COMPLETE | **NO.** close-open p=0.21; up-after-60m p=0.91; first 0.25-ATR move down p=0.29 (tradeable state). | `results/stageC_conditional.csv` |
+| HF-108 | Does it change opening-range break direction? | Confirmatory | COMPLETE | **NO.** OR15 down 43.9% vs 42.7%; OR30 40.0% vs 41.8%. | `results/stageC_path.csv` |
+| HF-109 | Does it change timing of the Friday-low touch, in the tradeable state? | Confirmatory | COMPLETE | **NO.** by-30-min p=0.41, by-60-min p=0.44. | `results/stageC_conditional.csv` |
+| HF-110 | Does it change path sequencing? | Confirmatory | COMPLETE | Marginally: low_only 36.4% vs 23.9%. But `high_then_low` (the retracement path an entry would need) is 5.4% vs 2.6% - too rare to trade. | `results/stageC_path.csv` |
+| HF-111 | What survives in the tradeable state (opens at/above Friday's low)? | Confirmatory | COMPLETE | Only 2 of 16: touch rate +0.087 (p=0.017) and max down-excursion +0.117 ATR (p<0.001). | `results/stageC_conditional.csv`, `charts/c2_02` |
+| HF-112 | D1 - short at Monday's open, ATR stop/target | Confirmatory | COMPLETE | Negative after costs, mean R -0.07 to -0.16; 8/12 cells significantly negative. | `results/stageD_entries.csv` |
+| HF-113 | D2 - short on a limit above the open | Confirmatory | COMPLETE | Negative to zero, mean R -0.02 to -0.10, none positive. | `results/stageD_entries.csv` |
+| HF-114 | D3 - short the break of Friday's low | Confirmatory | COMPLETE | **ARTEFACT then FALSIFIED.** Looked strong (+0.81R, p<0.001) via a phantom fill on gap-through Mondays; corrected version -0.16 to +0.04, all CIs span zero. | `results/stageD_entries.csv`, cycle2_findings C2-A1 |
+| HF-115 | Is the trigger's economic contribution (triggered - opposite) significant anywhere? | Confirmatory | COMPLETE | **NO.** No construction's difference is significant. | `results/stageD_entries.csv` |
+| HF-116 | Adversarial RESCUE check: is the tradeable component significant in any subset? | Exploratory | COMPLETE | **PROVISIONAL.** 2 of 8 pre-chosen subsets reach 5% (2021-2026 p=0.041; opens-inside-range p=0.049). The tradeable-state path effect is concentrated entirely in 2021-2026 (p=0.008 vs p=0.59 in 2016-2020). Does not change the verdict; flagged as the best thread for a later cycle. | `results/stageE_rescue.csv` |
+| HF-117 | Is any single year carrying the headline effect? | Control | COMPLETE | **NO.** Positive in 11/11 years; worst leave-one-year-out pooled uplift +0.137 vs +0.171 full sample. | `results/stageE_year_by_year.csv` |
+| HF-118 | Non-directional exploitation of the +0.117 ATR down-reach | Exploratory | **NOT STARTED** - out of Cycle-2 scope | - | - |
