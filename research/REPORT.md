@@ -185,9 +185,13 @@ The identical construction produces large raw uplifts on every adjacent weekday 
 (+0.05 to +0.22), at the weekly scale (+0.08 to +0.22, significant in 12/12 instruments), and
 across Asia → London → New York session blocks (+0.06 to +0.18, significant in 16/16 cells).
 After the close-in-range control, essentially all of them collapse to zero: weekly β ≈ 0 in
-12/12; intraday β significant in only 2/16. The **only** surviving cell in the entire study is
-US equity indices, Friday → Monday — where the coefficient is about three times that of the
-other weekday pairs.
+12/12; intraday β significant in only 2/16. The only asset class in which anything survives is
+US equity indices. Within it, weekday by weekday (controlled β, 95% CI): Mon 0.32 (0.03–0.60),
+Tue −0.25 (−0.53–0.03), Wed 0.04 (−0.25–0.32), Thu 0.29 (0.01–0.57), **Fri 0.50 (0.22–0.78)**.
+Friday is the largest and the cleanest, but Monday and Thursday are marginally positive as
+well; the pooled Mon–Thu coefficient (0.091, z = 1.28) is small only because Tuesday and
+Wednesday offset them. So Friday is *the strongest* case of a US-equity-index effect, not the
+*only* one.
 
 So Outcome E of the original brief is the right description of the general case — this is a
 failed-extreme/next-bar continuation *appearance* that is mostly tautological — with Outcome D
