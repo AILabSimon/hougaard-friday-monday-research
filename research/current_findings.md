@@ -113,6 +113,46 @@ looks like. Evidence: `results/controls.csv`, `charts/02_adjacent_weekday.png`.
   conditional information is real — but "less bad at shorting an uptrend" is not an edge.
   `results/strategy_expectancy.csv`, `charts/07_strategy_expectancy.png`
 
+
+### V8 — The ">90%" is reachable, but only at a tolerance that destroys the information
+Hougaard's own loosest wording is *"the lows of Friday should be surpassed **or at least making
+a double bottom**"*. Testing that literally — event = `Monday low ≤ Friday low + tol × ATR14`:
+
+| tolerance (ATR14) | triggered | opposite | uplift |
+|---|---|---|---|
+| 0.00 (strict touch) | 0.550 | 0.358 | **+0.192** |
+| 0.10 | 0.617 | 0.428 | +0.189 |
+| 0.25 | 0.718 | 0.554 | +0.164 |
+| 0.50 | 0.842 | 0.705 | +0.137 |
+| **0.75** | **0.921** | **0.835** | +0.086 |
+| 1.00 | 0.963 | 0.919 | +0.044 |
+
+(Yahoo ES+NQ 2000–2026; Dukascopy RTH and BROKER give the same shape.)
+
+**This is the single best explanation of the discrepancy between his numbers and ours.** A
+"double bottom" tolerance of about three quarters of a daily ATR reproduces his >90% almost
+exactly — but at that tolerance the *opposite* condition also scores 83.5%, so the
+Thursday/Friday comparison has stopped carrying information. Eyeballing charts for "did Monday
+come back near Friday's low" will produce >90% on almost any sample, whatever Thursday did.
+Evidence: `results/tolerance_ladder.csv`, `charts/09_tolerance_ladder.png`.
+
+### V9 — The replication is far less independent than the instrument count suggests
+Outcome correlation on the *same* Monday:
+
+| pair | n | corr(touch) | corr(trigger) | agreement |
+|---|---|---|---|---|
+| NAS100 vs US500 (Dukascopy RTH) | 508 | 0.753 | 0.770 | 88.4% |
+| ES vs NQ (Yahoo daily) | 1175 | 0.760 | 0.681 | 88.1% |
+| NAS100 CFD vs NQ futures (**cross-vendor**) | 479 | 0.793 | 0.782 | — |
+| EURUSD vs GBPUSD | 552 | 0.510 | 0.587 | 76.1% |
+| EURUSD vs USDJPY | 552 | −0.234 | −0.207 | 39.9% |
+
+Four US-index series are **not** four independent tests — they are close to one bet on the US
+equity complex, and the cross-vendor comparison is a data-quality check rather than
+independent evidence. The genuine replication in this study is **temporal**
+(2000–2015 → 2016–2026, V5), not cross-sectional. Pooled N of 2 369 should be read as an
+effective N several times smaller. Evidence: `results/independence.csv`.
+
 ---
 
 ## PROVISIONAL
@@ -181,8 +221,10 @@ looks like. Evidence: `results/controls.csv`, `charts/02_adjacent_weekday.png`.
 - **O2 — Mechanism.** Why US equity indices and not FX, metals or oil? Weekend information
   flow, index options expiry/positioning, and Monday-open auction liquidity are untested
   candidates.
-- **O3 — Spread/commission.** Not modelled in detail, because no construction reached positive
-  expectancy *before* costs. Cost modelling would only make the negative stronger.
+- **O3 — Spread/commission.** Measured, not modelled in depth: Dukascopy 2024 median spread is
+  3.42 index points on NAS100 (median RTH ATR14 = 252) and 0.51 on US500 (ATR14 = 49), i.e.
+  **≈2–3% of a 0.5-ATR stop** per round trip. Immaterial next to the −3% to −18% of R by which
+  the constructions already fail. Costs only widen the negative.
 
 ---
 

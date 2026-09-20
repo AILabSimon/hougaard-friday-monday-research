@@ -40,15 +40,22 @@ temporal and placebo tests. Entry research complete and negative.**
    logistic coefficient on the trigger collapses to ≈0 (FX: β = −0.01, z = −0.18). A placebo
    that destroys the temporal pairing while preserving all marginals **reproduces the whole FX
    effect** (observed uplift 0.141 vs placebo 0.159, p = 0.91).
-3. **US equity indices are the exception and the effect is real.** After the same control the
+3. **US equity indices are the exception and the effect is real** (though the replication is
+   less independent than it looks — NAS100/US500/ES/NQ outcomes correlate ≈0.75–0.79 on the same
+   Monday, so this is close to one bet on the US equity complex; the real replication is
+   temporal). After the same control the
    trigger keeps β ≈ 0.42–0.44 (OR ≈ 1.52–1.55, z ≈ 3.0) on Dukascopy NAS100/US500 and
    β = 0.36 (z = 3.67) on 26 years of ES/NQ. It beats its placebo (p < 0.001), it is positive
    in 11/11 Dukascopy years and 26/27 Yahoo years, and it **survives a frozen
    dev(2000-2015) → validation(2016-2026) split on two independent data sources**.
-4. **Friday is only modestly special.** The identical construction on Mon→Tue … Thu→Fri also
+4. **Hougaard's own >90% is reproducible only at a "double bottom" tolerance of ~0.75 ATR —
+   at which point the opposite condition also scores 83.5%** and the Thursday/Friday comparison
+   has stopped carrying information. This appears to be the explanation for the gap between his
+   figures and every systematic test, his own included (he has since revised to 62%).
+5. **Friday is only modestly special.** The identical construction on Mon→Tue … Thu→Fri also
    produces large raw uplifts; after control, only the US-index Friday→Monday cell stays
    clearly significant, at roughly 3× the coefficient of the other weekday pairs.
-5. **It does not convert into a trade.** Even in triggered weeks Monday reaches Friday's
+6. **It does not convert into a trade.** Even in triggered weeks Monday reaches Friday's
    *high* more often than Friday's *low* (53.5% vs 46.5%, RTH); 76% of the touches that do
    happen occur inside the first hour, mostly at the open; and the trigger systematically
    selects the *worst* payoff geometry — median reward:risk available at Friday's close is
@@ -64,7 +71,10 @@ temporal and placebo tests. Entry research complete and negative.**
 | Base rate, opposite condition, upside symmetry, adjacent weekdays, weekly & intraday analogues, placebo | [`results/controls.csv`](results/controls.csv) |
 | Year-by-year, session definitions, frozen dev/validation | [`results/robustness.csv`](results/robustness.csv) |
 | Strategy expectancy by construction | [`results/strategy_expectancy.csv`](results/strategy_expectancy.csv) |
-| Full interpretation | [`research/current_findings.md`](research/current_findings.md) |
+| Tolerance ladder — where ">90%" comes from | [`results/tolerance_ladder.csv`](results/tolerance_ladder.csv) |
+| Effective independence of the replication | [`results/independence.csv`](results/independence.csv) |
+| **Principal research report** | [`research/REPORT.md`](research/REPORT.md) |
+| Full interpretation, by evidence status | [`research/current_findings.md`](research/current_findings.md) |
 | What was tested and what happened | [`research/test_log.md`](research/test_log.md) |
 | Provenance of the claim (what Hougaard actually said) | [`research/provenance.md`](research/provenance.md) |
 
@@ -73,6 +83,8 @@ year-by-year, time-to-touch, first arrival, strategy expectancy, payoff geometry
 
 ## Current unresolved questions
 
+- Effective sample size. Four US index series behave as roughly one. The evidence rests on 26
+  years of time-series replication, not on four independent markets.
 - We do **not** have the Dow Jones cash index, which is the only instrument Hougaard says he
   tested. NAS100/US500 CFDs and ES/NQ futures are the closest available proxies.
 - The surviving US-index effect has no established mechanism. Weekend news flow, options
