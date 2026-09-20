@@ -1,0 +1,14 @@
+# never commit market data or derived candle sets
+*.parquet
+derived/
+data/
+**/Canonical/**
+**/Downloads/**
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+# os
+.DS_Store
