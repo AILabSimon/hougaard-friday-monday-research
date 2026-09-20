@@ -26,7 +26,7 @@ economic tests. No further hypothesis expansion or strategy optimisation until r
 | **Replication source** | Yahoo daily futures bars: ES, NQ, CL, GC, SI — **2000-08 → 2026-09** (26 years, independent vendor, independent session convention) |
 | **Weekly / intraday scales** | weekly bars aggregated from broker days; Asia / London / New York UTC session blocks, built from the same 1m data |
 | **Session definitions tested** | `RTH` 09:30–16:00 New York (**Hougaard's own definition**), `BROKER` (Dukascopy CFD/FX day: 17:00 NY roll for FX, 18:00 NY for metals/WTI/indices), `NYFX` (17:00 NY roll), `UTC` 00:00–23:59, `LONDON` local calendar day (DST-aware) |
-| **Not uploaded** | the candle data itself. Everything here is aggregate. |
+| **Not uploaded** | the candle data and the derived intermediate sets. Everything here is aggregate. See *Evidence held locally* below. |
 
 ## Current headline result
 
@@ -92,6 +92,27 @@ expectancy, but the search was deliberately not expanded beyond them.
 
 Charts: [`charts/`](charts/) — conditional vs base rate, adjacent-weekday comparison, placebo,
 year-by-year, time-to-touch, first arrival, strategy expectancy, payoff geometry.
+
+## Evidence held locally, not in this repository
+
+These are intermediate datasets, not conclusions. Every number in `results/` is derived from
+them by the scripts in `src/`, and `research/METHODS.md` §9 gives the exact order to rebuild
+them from the canonical store. They are excluded because they are large and because the brief
+forbids uploading candle history.
+
+| Artefact | Size | What it is |
+|---|---|---|
+| `derived/sessions/*.parquet` (60 files) | 13 MB | session bars: 12 instruments × 5 session definitions |
+| `derived/triples/triples_duka.parquet` | 164 480 rows, 34 MB | **the central object** — every (A,B,C) consecutive-session triple with all triggers, events and structure features |
+| `derived/triples/triples_yf.parquet` | 32 006 rows | the same for Yahoo daily futures, 2000–2026 |
+| `derived/triples/triples_weekly.parquet` | 6 602 rows | weekly-scale triples |
+| `derived/triples/triples_session3.parquet` | 100 253 rows | Asia/London/NY session-block triples |
+| `derived/monday_paths.parquet` | 12 908 rows | per-Monday 1m path: first-touch minutes, MFE/MAE, MAE-before-touch |
+| `derived/monday_grid.parquet` | 4 325 rows, 91 cols | first-touch minute on the ±3 ATR level grid (NAS100, US500, EURUSD, GBPUSD) — the input to E3 |
+| the canonical 1-minute store | 4.6 GB | read-only source, untouched |
+
+A reviewer who wants to check a specific number rather than rebuild everything should ask for
+the relevant `derived/*.parquet` — they are small enough to transfer individually.
 
 ## Current unresolved questions
 
