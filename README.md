@@ -11,7 +11,23 @@ ordinary Monday behaviour would produce anyway?
 
 ## Current status
 
-**CYCLE 3 CLOSURE COMPLETE — AWAITING INDEPENDENT REVIEW.**
+**FUTURES/CFD BRANCH CLOSED — AWAITING INDEPENDENT REVIEW.**
+
+Final classification: **Statistical Monday range-expansion phenomenon validated; no simple
+mechanically tradeable futures/CFD edge identified.**
+
+The last mandated economic test — enter at the Monday open in the direction of the cross, after
+an initial ±0.25 ATR leg — was run on three coarse risk constructions. The signal is frequent
+(48–58% of triggered Mondays, ~10–12.5 trades per instrument-year) and cleanly causal, but
+**none of the ten construction-cells has a mean R significantly above zero and every median R is
+negative**. The reason is arithmetic: the 0.445 ATR of extra post-cross movement is a *maximum
+favourable excursion*, and the same entries carry 0.385 ATR of adverse excursion, leaving ~0.06
+ATR of unrealisable margin. 2R is reached on 8–14% of signals. See
+[`research/final_futures_test.md`](research/final_futures_test.md).
+
+---
+
+**CYCLE 3 CLOSURE.**
 Cycle 2 was accepted as classification 2. Issue #2's Stage A question could not be settled by
 the GitHub Actions runner, which has no access to the local per-Monday parquet or the 1-minute
 store; it has now been measured locally — see
@@ -110,7 +126,8 @@ expectancy, but the search was deliberately not expanded beyond them.
 | Strategy expectancy by construction | [`results/strategy_expectancy.csv`](results/strategy_expectancy.csv) |
 | Tolerance ladder — where ">90%" comes from | [`results/tolerance_ladder.csv`](results/tolerance_ladder.csv) |
 | Effective independence of the replication | [`results/independence.csv`](results/independence.csv) |
-| **Cycle 3 closure (latest)** | [`research/cycle3_closure.md`](research/cycle3_closure.md) |
+| **Final futures/CFD test (latest)** | [`research/final_futures_test.md`](research/final_futures_test.md) |
+| **Cycle 3 closure** | [`research/cycle3_closure.md`](research/cycle3_closure.md) |
 | **Cycle 2 findings** | [`research/cycle2_findings.md`](research/cycle2_findings.md) |
 | **Principal research report (Cycle 1)** | [`research/REPORT.md`](research/REPORT.md) |
 | **Methods — data, sessions, DST, definitions, statistics, reproduction** | [`research/METHODS.md`](research/METHODS.md) |

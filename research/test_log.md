@@ -78,3 +78,17 @@ used to select the relationship.
 | HF-308 | Timing of the expansion | Exploratory | COMPLETE | **NEW.** First 0.25 ATR excursion arrives 24.6 min earlier (RTH, p<0.001) and 129 min earlier (broker day, p<0.001). Not visible in Cycle 2's marginals. | `results/c3_stageA_topology.csv` |
 | HF-309 | DEFECT: post-leg extremes read from session-wide running accumulators | Artefact | FIXED | Made every retracement trivially true (retr100 = 1.000 for all) and collapsed the full sequence onto both-sides-crossed. Fixed to accumulate from the first-leg index; uncorrected run never reported. | `src/cycle3_topology.py` |
 | HF-310 | Issue #2 Stage C construction family | - | **NOT RUN** - closure scoped to measurement only; Stage C is the reviewer's decision | - | - |
+
+## Final futures/CFD economic test (post-open-cross construction)
+
+| ID | Question | Type | Status | Result | Evidence |
+|---|---|---|---|---|---|
+| HF-401 | Does the post-open-cross signal fire often enough to matter? | Confirmatory | COMPLETE | Yes. 48.0% of triggered Mondays (RTH) / 58.1% (broker); 223 / 276 trades; ~10.1 / 12.5 per instrument-year. Frequency was never the constraint. | `results/postcross_economics.csv` |
+| HF-402 | S1 - structural stop beyond the initial-leg extreme, target 2R | Confirmatory | COMPLETE | **FALSIFIED.** RTH mean R -0.045 (CI -0.207..+0.113); broker +0.041 (CI -0.107..+0.198). Medians -0.18 / -0.25. | `results/postcross_economics.csv` |
+| HF-403 | S2 - coarse 0.5 ATR stop, targets 1R / 2R / 3R | Confirmatory | COMPLETE | **FALSIFIED.** Six cells, mean R -0.062 to +0.029, every CI spans zero, every median negative. | `results/postcross_economics.csv` |
+| HF-404 | S3 - 0.5 ATR stop, 2R target, break-even at +1R | Confirmatory | COMPLETE | **FALSIFIED.** RTH -0.042, broker +0.031, both n.s. Management does not rescue it. | `results/postcross_economics.csv` |
+| HF-405 | Is the 2R+ programme objective reachable from this entry? | Confirmatory | COMPLETE | **NO.** 2R attainment 8.1% (RTH) / 13.0% (broker) at a 0.5 ATR stop, 14.3% with the structural stop. Median MFE 0.69-0.96 R vs median MAE 0.54-0.74 R. | `results/postcross_economics.csv`, `charts/c4_01` |
+| HF-406 | Does the trigger add value relative to the control on this construction? | Control | COMPLETE | Partially: broker S1 +0.041 triggered vs -0.216 control, diff +0.257 R (p=0.009). But the triggered arm is itself indistinguishable from zero (p=0.65). Informative, not profitable - the pattern of every prior cycle. | `results/postcross_economics.csv` |
+| HF-407 | Reconciliation: is 0.445 ATR of post-cross movement capturable? | Confirmatory | COMPLETE | **NO, and this is the key result.** The figure is a maximum favourable excursion, reproduced exactly here (0.446). From the SAME entry the adverse excursion is 0.385 ATR. Margin = +0.061 ATR of unrealisable maxima vs ~0.02 ATR costs. Control margin is -0.019. | `results/postcross_geometry.csv`, `charts/c4_01` |
+| HF-408 | Year and DEV/VAL consistency | Confirmatory | COMPLETE | Positive in 3-6 of 11 years; DEV/VAL means flip sign in OPPOSITE directions between RTH and broker day. No stability. Max drawdown 13.8-24.9 R. | `results/postcross_economics.csv` |
+| HF-409 | Known approximation: BE-at-+1R resolution | Artefact | DOCUMENTED | The entry level's own first-touch is degenerate (open touched at minute 0), so BE is proxied by the 0.25 ATR adverse level - mildly generous to the strategy. S3 is negative anyway. | `research/final_futures_test.md` |
