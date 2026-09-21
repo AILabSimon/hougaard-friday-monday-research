@@ -6,6 +6,11 @@ weekend/Monday open → Monday path → Friday-level interaction → possible tr
 
 ## Classification: **2 — statistical effect survives, no simple executable manifestation found**
 
+> **Accepted by independent review** (Issue #1, 2026-09-21). The review's follow-up question —
+> is the expansion same-session two-sided or cross-day averaging of one-sided expansion? — is
+> answered in [`cycle3_closure.md`](cycle3_closure.md): shape-preserving proportional scaling,
+> both sides expanding, ratio unchanged.
+
 The Thursday→Friday condition survives dependence-aware confirmation, it is the strongest of
 the five weekday pairs, and it carries a large, robust, twice-validated signal about Monday.
 But that signal is about **how far Monday reaches in both directions**, not about which way it

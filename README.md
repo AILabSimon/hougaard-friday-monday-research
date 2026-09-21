@@ -11,7 +11,24 @@ ordinary Monday behaviour would produce anyway?
 
 ## Current status
 
-**CYCLE 2 COMPLETE (Issue #1) — AWAITING INDEPENDENT REVIEW.**
+**CYCLE 3 CLOSURE COMPLETE — AWAITING INDEPENDENT REVIEW.**
+Cycle 2 was accepted as classification 2. Issue #2's Stage A question could not be settled by
+the GitHub Actions runner, which has no access to the local per-Monday parquet or the 1-minute
+store; it has now been measured locally — see
+[`research/cycle3_closure.md`](research/cycle3_closure.md).
+
+**Closure answer:** the Monday range expansion is a **same-session, shape-preserving
+proportional scaling** of the excursion envelope. Both sides expand (smaller side +0.043 to
++0.055 ATR, p ≤ 0.001) while the smaller/larger ratio is unchanged (p = 0.69 / 0.91). It is
+therefore neither one-sided-at-random nor a shift toward balanced two-sidedness. Days remain
+one-side-dominant (smaller side ≈ 35% of larger). Direction stays unpredictable, and the first
+leg is **no** more likely to retrace or cross back through the open (p = 0.69) — so reversal
+constructions have no conditional support. One new result: the expansion starts ~25 minutes
+earlier under RTH and ~2 hours earlier on the broker day.
+
+---
+
+**CYCLE 2 (Issue #1) — ACCEPTED BY INDEPENDENT REVIEW.**
 Cycle 1 established the statistical effect (literal hypothesis, controls, geometric and
 permutation tests, cross-market and cross-vendor replication, session and temporal robustness,
 frozen dev/validation split). Cycle 2 asked whether it converts into a mechanical setup.
@@ -93,7 +110,8 @@ expectancy, but the search was deliberately not expanded beyond them.
 | Strategy expectancy by construction | [`results/strategy_expectancy.csv`](results/strategy_expectancy.csv) |
 | Tolerance ladder — where ">90%" comes from | [`results/tolerance_ladder.csv`](results/tolerance_ladder.csv) |
 | Effective independence of the replication | [`results/independence.csv`](results/independence.csv) |
-| **Cycle 2 findings (latest)** | [`research/cycle2_findings.md`](research/cycle2_findings.md) |
+| **Cycle 3 closure (latest)** | [`research/cycle3_closure.md`](research/cycle3_closure.md) |
+| **Cycle 2 findings** | [`research/cycle2_findings.md`](research/cycle2_findings.md) |
 | **Principal research report (Cycle 1)** | [`research/REPORT.md`](research/REPORT.md) |
 | **Methods — data, sessions, DST, definitions, statistics, reproduction** | [`research/METHODS.md`](research/METHODS.md) |
 | Full interpretation, by evidence status | [`research/current_findings.md`](research/current_findings.md) |

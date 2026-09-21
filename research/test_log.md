@@ -63,3 +63,18 @@ used to select the relationship.
 | HF-121 | Does the trigger predict Monday RANGE EXPANSION? | Exploratory -> Confirmatory | COMPLETE | **VALIDATED.** +13% to +28%, beta 0.12-0.23 ATR, p<0.001 in every cut incl. DEV and VAL separately and each instrument alone. Survives Friday range/close-location control. Two-sided. | `results/c2_range_effect.csv` |
 | HF-122 | Full economics reporting set (trades/year, 1R/2R/3R, MFE/MAE, year, dev/val) | Confirmatory | COMPLETE | 2R+ never approached: median MAE exceeds median MFE in most cells; 2R attainment 2-15%, 3R 0-8%; positive in 3-6 of 11 years. | `results/c2_economics_full.csv` |
 | HF-123 | Non-directional exploitation via options | Exploratory | **BLOCKED** - no options data in the library | - | - |
+
+## Cycle 3 closure (review of Cycle 2 → Issue #2 Stage A, run locally)
+
+| ID | Question | Type | Status | Result | Evidence |
+|---|---|---|---|---|---|
+| HF-301 | Is the Monday range expansion same-session two-sided, or cross-day averaging of random one-sided expansion? | Confirmatory | COMPLETE | **Neither.** Both sides expand (smaller side +0.043/+0.055 ATR, p=0.001/<0.001) and the smaller/larger ratio is unchanged (p=0.69/0.91) - a shape-preserving proportional scaling of the excursion envelope. | `results/c3_stageA_topology.csv`, `charts/c3_01` |
+| HF-302 | Both-side threshold crossing on the same Monday | Confirmatory | COMPLETE | Real at 0.25 ATR (+0.116 RTH / +0.153 BROKER, p<0.001), marginal at 0.5 (+0.030, p=0.039), absent by 0.75. | `results/c3_stageA_topology.csv` |
+| HF-303 | Joint vs independence of the two sides | Confirmatory | COMPLETE | Lift 0.43-0.80, always below 1: days stay one-side-dominant. Triggered Mondays are closer to independence than control at every threshold. | `results/c3_joint_independence.csv` |
+| HF-304 | Smaller-side / larger-side excursion ratio | Confirmatory | COMPLETE | Flat: +0.008 (p=0.69) RTH, -0.003 (p=0.91) BROKER. Smaller side is ~35% of larger in both groups. | `results/c3_stageA_topology.csv` |
+| HF-305 | First-leg ordering and direction | Confirmatory | COMPLETE | **FALSIFIED as a signal.** Larger side up p=0.46; first side up p=0.37/0.78; high-before-low p=0.66. | `results/c3_stageA_topology.csv` |
+| HF-306 | Does the first leg retrace / cross back through the open more often when triggered? | Confirmatory | COMPLETE | **FALSIFIED.** 50% retrace p=0.98; open cross 51.7% vs 50.2%, p=0.69. No conditional reversal tendency. | `results/c3_stageB_sequences.csv`, `charts/c3_02` |
+| HF-307 | Complementary sequence: first leg -> open cross -> opposite side | Confirmatory | COMPLETE | Frequency 28.5% vs 16.9% (p<0.001) at 0.25 ATR, with 0.445 vs 0.272 ATR available after the cross (p<0.001). But this is range expansion restated, not a reversal effect - the cross itself is not elevated. | `results/c3_stageB_sequences.csv` |
+| HF-308 | Timing of the expansion | Exploratory | COMPLETE | **NEW.** First 0.25 ATR excursion arrives 24.6 min earlier (RTH, p<0.001) and 129 min earlier (broker day, p<0.001). Not visible in Cycle 2's marginals. | `results/c3_stageA_topology.csv` |
+| HF-309 | DEFECT: post-leg extremes read from session-wide running accumulators | Artefact | FIXED | Made every retracement trivially true (retr100 = 1.000 for all) and collapsed the full sequence onto both-sides-crossed. Fixed to accumulate from the first-leg index; uncorrected run never reported. | `src/cycle3_topology.py` |
+| HF-310 | Issue #2 Stage C construction family | - | **NOT RUN** - closure scoped to measurement only; Stage C is the reviewer's decision | - | - |
