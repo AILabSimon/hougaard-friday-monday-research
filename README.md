@@ -11,18 +11,19 @@ ordinary Monday behaviour would produce anyway?
 
 ## Current status
 
-**CYCLE 2 COMPLETE — AWAITING INDEPENDENT REVIEW.**
+**CYCLE 2 COMPLETE (Issue #1) — AWAITING INDEPENDENT REVIEW.**
 Cycle 1 established the statistical effect (literal hypothesis, controls, geometric and
 permutation tests, cross-market and cross-vendor replication, session and temporal robustness,
 frozen dev/validation split). Cycle 2 asked whether it converts into a mechanical setup.
 
-**Cycle 2 verdict: Outcome B — STATISTICAL EFFECT ONLY.** The effect survives dependence-aware
-inference, but it is a *level-position* effect delivered by the weekend gap, not a *path*
-effect. Under Hougaard's own RTH definition roughly four-fifths of the uplift is Friday's low
-already being gone at the opening bell; the component a trader could act on is +3.8pp,
-p = 0.225. Within the tradeable state the trigger changes nothing about Monday's timing,
-direction, sequencing or opening-range behaviour. No entry construction reached positive
-expectancy after costs. See [`research/cycle2_findings.md`](research/cycle2_findings.md).
+**Cycle 2 classification: 2 — statistical effect survives, no simple executable manifestation
+found.** The effect survives week-clustered inference and is the strongest of the five adjacent
+weekday pairs. What it predicts, however, is **how far Monday reaches in both directions, not
+which way it goes**: Monday's realised range expands **13–28%** (p < 0.001 in every cut, both
+vendors, development and validation separately), while direction, return and opening-range
+break direction are unchanged. Four entry families and 60 construction-cells produced no
+positive expectancy after costs — including a non-directional straddle, because the extra range
+is two-sided. See [`research/cycle2_findings.md`](research/cycle2_findings.md).
 
 ## Data universe
 
@@ -104,21 +105,29 @@ year-by-year, time-to-touch, first arrival, strategy expectancy, payoff geometry
 
 ## Cycle 2 headline
 
-| | triggered | opposite | Δ | p |
+**Gap or travel depends on the session window, not on the market:**
+
+| dataset | total uplift | already gone at the open | travelled to during the session |
+|---|---|---|---|
+| NAS100/US500 RTH (6.5h cash) | +0.171 | +0.133 (p<0.001) | +0.038 (p = 0.231) |
+| NAS100/US500 broker day (23h) | +0.206 | +0.073 (p<0.001) | **+0.133** (p<0.001) |
+| ES + NQ futures day, 2000–2026 | +0.192 | +0.052 (p<0.001) | **+0.140** (p<0.001) |
+
+**The finding that survives everything — Monday's range expands:**
+
+| sample | β (ATR) | 95% CI | p | uplift |
 |---|---|---|---|---|
-| Monday touches Friday's low (RTH) | 0.465 | 0.293 | +0.171 | <0.001 |
-| …level already gone at the open | 0.233 | 0.100 | +0.133 | <0.001 |
-| …**travelled to during Monday** | 0.231 | 0.193 | **+0.038** | **0.225** |
+| NAS100/US500 broker day | 0.230 | 0.158 – 0.299 | <0.001 | +28% |
+| ES+NQ daily 2000–2026 | 0.160 | 0.115 – 0.207 | <0.001 | +18% |
+| ES+NQ DEV 2000–2015 | 0.121 | 0.064 – 0.179 | <0.001 | +13% |
+| ES+NQ VAL 2016–2026 | 0.218 | 0.140 – 0.294 | <0.001 | +25% |
 
-Within the tradeable state (Monday opens at/above Friday's low) only 2 of 16 path measures
-differ: eventual touch rate (+8.7pp) and max down-excursion (+0.117 ATR). Timing, direction,
-sequencing and opening-range break direction are all unchanged. 42 entry-construction cells
-across three families produced **no** positive expectancy after costs, and the trigger's
-economic contribution was insignificant in every one.
+Controlled for Friday's range/ATR and close-in-range. Two-sided: max down-excursion +0.149 ATR
+*and* max up-excursion +0.097 ATR. Direction, return and opening-range break direction are
+unchanged — which is exactly why no directional construction, and no straddle, captured it.
 
-One thread is preserved rather than dismissed: the tradeable-state path effect is concentrated
-entirely in **2021–2026** (touch uplift +13.5pp, p = 0.008) and is absent in 2016–2020
-(+3.1pp, p = 0.59). See C2-P1 in the Cycle 2 findings.
+Friday→Monday is also the **only** adjacent weekday pair significant in all three datasets
+under identical clustered treatment (OR 1.48 / 1.65 / 1.43).
 
 ## Evidence held locally, not in this repository
 

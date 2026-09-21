@@ -216,3 +216,71 @@ python src/chart02_fix.py            # chart 2 with confidence intervals
 
 Requirements: python ≥3.10, pandas, numpy, pyarrow, scipy, matplotlib. No other dependencies.
 `MARKET_DATA_ROOT` overrides the canonical store location.
+
+---
+
+## 10. Cycle 2 additions
+
+**Dependence-aware inference.** The resampling unit is the **calendar week** (`W-SUN`), so all
+instrument-observations sharing a Monday move together. 1 500–2 000 replications. Reported as a
+percentile bootstrap interval on the statistic and a two-sided bootstrap p-value
+(`2 × min(P(θ*≤0), P(θ*≥0))`). Cluster SEs run 1.22–1.27× the naive model SEs.
+`src/stageA_dependence.py`.
+
+**Cycle-2 derived datasets** (NAS100/US500 only — see the ES/NQ note below):
+- `c2_friday_path.parquet` — how Friday developed: minute of its high and low, minute and size
+  of its closest approach to Thursday's high, first-hour range, last-hour return.
+- `c2_monday_path.parquet` — 150 columns: opening location versus Friday's close/low/high/
+  midpoint and Thursday's high; up/down/return excursions at 5, 15, 30 and 60 minutes; 5/15/30/
+  60-minute opening ranges with break direction, break time, continuation and failure; first
+  touch of Friday's low, Friday's high and Thursday's high; MAE before the touch; penetration
+  and bounce after it; first 0.25-ATR move; and a path-sequence label
+  (`low_only` / `high_only` / `low_then_high` / `high_then_low` / `neither`).
+- `c2_grid.parquet` — first-touch minute on two level grids: Monday's open ±3 ATR and Friday's
+  low ±2 ATR, both in 0.25-ATR steps. Ordering between any two levels is therefore exact, which
+  is what makes the Stage D constructions resolvable from 1-minute bars.
+
+**ES/NQ intraday.** The library holds 1m/5m/15m/1h for ES, NQ and the micros, but Yahoo serves
+only ~30 days of 1-minute history (2026-08-19 → 2026-09-17, ≈4 Mondays). Minute-level path work
+on ES/NQ is not possible. The gap-versus-travel decomposition needs only daily bars and is run
+on the full 2000–2026 ES/NQ history (`src/c2_esnq_decomp.py`).
+
+**Opening-location buckets** (Issue #1): `1 gaps below Fri low`, `2 opens inside Fri range`,
+`3 opens near Fri low` (within 15% of the range), `4 opens near Fri high`, `5 opens above Fri
+range`. The *tradeable state* throughout Cycle 2 means buckets 2–5, i.e. Monday opens at or
+above Friday's low so the level has not already been consumed.
+
+**Range-expansion model.** Monday total excursion `(open−low)+(high−open)` in ATR units,
+OLS on the trigger with Friday range/ATR, Friday close-in-range and instrument fixed effects,
+week-clustered bootstrap. On ES/NQ daily the outcome is `(high−low)/ATR`. `src/c2_range_effect.py`.
+
+**Cycle-2 entry definitions.** All resolved from 1-minute bars; all net of costs; all reported
+triggered *and* control.
+
+| ID | Entry | Stop | Target | Expiry | No-entry |
+|---|---|---|---|---|---|
+| D1 | Monday open, short | open + k·ATR, k ∈ {0.5, 0.75, 1.0} | open − m·ATR, m ∈ {0.5, 1.0, 1.5, 2.0} | session close, marked to close | Monday opens below Friday's low |
+| D2 | limit at open + e·ATR, e ∈ {0.25, 0.5}, short | entry + k·ATR, k ∈ {0.5, 0.75} | entry − m·ATR, m ∈ {1.0, 1.5, 2.0} | session close | limit not touched, or opens below Friday's low |
+| D3b | touch of Friday's low, short | low + k·ATR, k ∈ {0.25, 0.5, 0.75} | low − m·ATR, m ∈ {0.5, 1.0, 1.5} | session close | Monday opens below Friday's low (unfillable — see C2-A1) |
+| D4 | OCO stop orders at open ± k·ATR, k ∈ {0.25, 0.5}; first touched fills, other cancelled | the opposite entry level (risk 2k·ATR) | m·ATR beyond entry, m ∈ {0.5, 1.0, 1.5} | session close | neither level touched |
+
+**Costs.** Charged in price terms as `spread + 2 × slip` per round trip and converted to R by
+the construction's own risk: NAS100 spread 3.42 / slip 1.0 point; US500 spread 0.51 / slip 0.25.
+
+**Cycle-2 reproduction order** (after the Cycle-1 steps in §9):
+```
+python src/stageA_dependence.py       # week-clustered confirmation
+python src/build_paths_c2.py          # Friday and Monday path datasets
+python src/build_grid_c2.py           # open-anchored and low-anchored level grids
+python src/stageB_structure.py        # raw structural associations
+python src/stageB_partial.py          # the same, controlled
+python src/stageC_path.py             # Monday path, triggered vs control
+python src/stageC2_conditional.py     # conditioned on opening state
+python src/c2_esnq_decomp.py          # ES/NQ daily decomposition + opening buckets
+python src/stageD_entries.py          # D1 / D2 / D3a / D3b
+python src/stageD2_nondirectional.py  # D4 + range diagnostic
+python src/c2_range_effect.py         # range expansion, controlled
+python src/c2_gapfill.py              # weekday pairs + full economics table
+python src/c2_rescue.py               # adversarial rescue check
+python src/c2_charts.py ; python src/c2_charts2.py
+```

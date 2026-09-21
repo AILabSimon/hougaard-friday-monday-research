@@ -1,5 +1,31 @@
 # Current findings
 
+> **Cycle 2 is complete (Issue #1).** This document is the Cycle-1 record and remains valid
+> except where the block below says otherwise. The current interpretation lives in
+> [`cycle2_findings.md`](cycle2_findings.md).
+>
+> **Cycle 2 classification: 2 — statistical effect survives, no simple executable manifestation found.**
+>
+> What Cycle 2 changed in this document:
+> - **V6 ("the behaviour is scale-invariant and symmetric, which argues against a Friday-specific
+>   mechanism") is partially superseded.** That conclusion compared *raw* uplifts. Under the
+>   geometry control with week-clustered inference, Friday→Monday is the only adjacent weekday
+>   pair significant in all three datasets and has the largest coefficient in each
+>   (C2-V3). Both statements are correct as stated; the raw comparison does not separate the
+>   pairs, the controlled one does.
+> - **V3 is confirmed under dependence-aware inference** but with wider intervals: cluster SEs
+>   are 1.22–1.27× the naive ones used here, the frozen Yahoo validation window alone is
+>   p = 0.071, and only 1 of 4 regime sub-periods is individually significant (C2-V1).
+> - **V7's structural obstacles are refined.** "Monday reaches Friday's high more often than its
+>   low" and "76% of touches occur in the first hour" are RTH-window statements. On the futures
+>   session the level is travelled to rather than gapped through (C2-V2).
+> - **A new validated finding supersedes nothing but outranks everything here in strength:**
+>   the trigger predicts a **13–28% expansion in Monday's realised range**, significant in every
+>   cut, both vendors, and in development and validation separately (C2-V4). It is two-sided,
+>   which is why no directional construction in either cycle captured it.
+> - Everything classified FALSIFIED or ARTEFACT below stands. Nothing has been reinstated.
+
+
 Last updated: 2026-09-20. Primary data 2016–2026 (Dukascopy 1m, 12 instruments);
 replication 2000–2026 (Yahoo daily futures ES/NQ/CL/GC/SI).
 
