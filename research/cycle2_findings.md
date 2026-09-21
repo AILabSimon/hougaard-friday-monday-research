@@ -1,5 +1,10 @@
 # Cycle 2 — Thursday→Friday failure and the Monday executable path
 
+> **Cycle 3 is complete (Issue #2).** This document stands as written. Cycle 3 answered its own
+> open question 4 below (no better futures-expressible test was found) and reached
+> **Outcome 1 — no simple futures/CFD edge; stop futures/CFD exploitation of this hypothesis.**
+> See [`cycle3_findings.md`](cycle3_findings.md).
+
 Mandate: GitHub Issue #1. Starting commit `97fca1c` (confirmed as `origin/main` HEAD at start).
 Sequence preserved throughout: **Thursday high → Friday fails it → Friday structure/close →
 weekend/Monday open → Monday path → Friday-level interaction → possible trade.**

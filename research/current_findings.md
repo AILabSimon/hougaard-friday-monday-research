@@ -1,8 +1,10 @@
 # Current findings
 
-> **Cycle 2 is complete (Issue #1).** This document is the Cycle-1 record and remains valid
-> except where the block below says otherwise. The current interpretation lives in
-> [`cycle2_findings.md`](cycle2_findings.md).
+> **Cycle 3 is complete (Issue #2).** This document is the Cycle-1 record and remains valid
+> except where the blocks below say otherwise. The current interpretation lives in
+> [`cycle3_findings.md`](cycle3_findings.md) (Cycle 3: Outcome 1 — range expansion real, no
+> simple futures/CFD edge; stop futures/CFD exploitation of this hypothesis), which builds on
+> [`cycle2_findings.md`](cycle2_findings.md) below.
 >
 > **Cycle 2 classification: 2 — statistical effect survives, no simple executable manifestation found.**
 >

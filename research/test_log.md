@@ -63,3 +63,20 @@ used to select the relationship.
 | HF-121 | Does the trigger predict Monday RANGE EXPANSION? | Exploratory -> Confirmatory | COMPLETE | **VALIDATED.** +13% to +28%, beta 0.12-0.23 ATR, p<0.001 in every cut incl. DEV and VAL separately and each instrument alone. Survives Friday range/close-location control. Two-sided. | `results/c2_range_effect.csv` |
 | HF-122 | Full economics reporting set (trades/year, 1R/2R/3R, MFE/MAE, year, dev/val) | Confirmatory | COMPLETE | 2R+ never approached: median MAE exceeds median MFE in most cells; 2R attainment 2-15%, 3R 0-8%; positive in 3-6 of 11 years. | `results/c2_economics_full.csv` |
 | HF-123 | Non-directional exploitation via options | Exploratory | **BLOCKED** - no options data in the library | - | - |
+
+## Cycle 3 (from reviewed commit 84bdb0a)
+
+Executed as a second-pass synthesis of already-committed Cycle 1/2 evidence — this execution
+environment had no access to the derived per-Monday parquet files or the canonical store (both
+gitignored, held only on the researcher's machine) and no network fetch to substitute. See
+`research/cycle3_findings.md` for the caveat and full citations.
+
+| ID | Question | Type | Status | Result | Evidence |
+|---|---|---|---|---|---|
+| HF-201 | Is the range expansion genuinely two-sided in magnitude, in the same session? | Confirmatory | COMPLETE (re-synthesis) | Two-sided in magnitude in every cut, but the up-side effect is not distinguishable from control in the RTH tradeable state (+0.041 ATR, p=0.128) while the down-side survives (+0.117, p=0.001); both sides survive on the broker day. Net (down−up) excursion flat at 5/15/30/60m in every cut. | `results/stageC_path.csv`, `results/c2_decomposition_tradeable.csv` |
+| HF-202 | Same-day two-sided vs cross-day averaging of random one-sided expansion? | Confirmatory | **NOT SETTLED — needs joint per-Monday data this environment can't reach** | Marginal averages can't distinguish the two readings; `touch_Bhigh` falls/flat while `mfe_up_atr` rises, and `low_only` sequence share rises 23.9%→36.4%, suggesting a reliability tilt toward the downside for crossing a specific level, short of either a clean one-sided or a fully contested two-sided picture. | `results/stageC_path.csv`, `results/stageD4_nondirectional.csv` (D4 fill-share ~55/45) |
+| HF-203 | Open→first-leg→retrace-through-open→opposite-extension sequence | Exploratory | **NOT COMPUTABLE from committed artifacts** | Would need `c2_monday_path.parquet` retracement columns, not present here. | — |
+| HF-204 | First-extreme→later-opposite-break sequence (reversal shape) | Confirmatory | COMPLETE | `high_then_low` real but rare (5.4% vs 2.6%, C2-F1, too rare to trade). `low_then_high` frequency not recoverable from committed CSVs. Ordering of Monday's own high/low (`mon_high_before_low`) unaffected by trigger in either session window. | `test_log.md` HF-110, `results/stageC_path.csv` |
+| HF-205 | Post-touch bounce/retracement elevated when triggered? | Confirmatory | COMPLETE | **NO.** `bounce_after_Blow_atr` diff −0.011 (RTH, p=0.848) / +0.070 (BROKER, p=0.147) — no evidence of extra reversal after the Friday-low touch. | `results/stageC_path.csv` |
+| HF-206 | Does any Stage-C construction family survive elimination against Stage A/B topology? | Confirmatory | COMPLETE | **NO.** Reversal families rejected (HF-204/205); continuation families already tested and negative (D1/D3b, Cycle 2); trailing/BE variant rejected because median MAE ≥ median MFE in every reported cell (HF-122); non-directional already tested and negative (D4, C2-F7). Zero new construction-cells run. | `research/cycle3_findings.md` Stage C |
+| HF-207 | Cycle-3 decision gate | — | COMPLETE | **Outcome 1** — range expansion real, no simple futures/CFD edge found; recommend archiving as non-tradeable with current instruments, options/volatility flagged as the only unexplored avenue (not begun, per mandate). | `research/cycle3_findings.md` Stage D |

@@ -11,7 +11,21 @@ ordinary Monday behaviour would produce anyway?
 
 ## Current status
 
-**CYCLE 2 COMPLETE (Issue #1) — AWAITING INDEPENDENT REVIEW.**
+**CYCLE 3 COMPLETE (Issue #2) — AWAITING INDEPENDENT REVIEW.**
+Cycle 3 asked whether Monday's validated range expansion (Cycle 2) has an intraday topology
+that supports one simple futures/CFD construction Cycle 2 did not test. **Cycle 3
+classification: Outcome 1 — the expansion is real but its topology provides no simple
+futures/CFD edge; recommend archiving as statistically interesting but non-tradeable with
+current instruments.** No new construction was run: the reversal shape is too rare to trade
+(5.4% vs 2.6% of Mondays), post-touch bounce-back is not elevated, continuation and
+non-directional constructions were already tested and failed in Cycle 2, and a trailing/BE
+variant is not justified because median adverse excursion meets or exceeds median favourable
+excursion in every reported cell. This cycle ran as a synthesis of already-committed Cycle 1/2
+evidence — the execution environment had no access to the per-Monday derived data or the
+canonical store, a limitation stated explicitly in the findings. See
+[`research/cycle3_findings.md`](research/cycle3_findings.md).
+
+**CYCLE 2 COMPLETE (Issue #1).**
 Cycle 1 established the statistical effect (literal hypothesis, controls, geometric and
 permutation tests, cross-market and cross-vendor replication, session and temporal robustness,
 frozen dev/validation split). Cycle 2 asked whether it converts into a mechanical setup.
@@ -93,7 +107,8 @@ expectancy, but the search was deliberately not expanded beyond them.
 | Strategy expectancy by construction | [`results/strategy_expectancy.csv`](results/strategy_expectancy.csv) |
 | Tolerance ladder — where ">90%" comes from | [`results/tolerance_ladder.csv`](results/tolerance_ladder.csv) |
 | Effective independence of the replication | [`results/independence.csv`](results/independence.csv) |
-| **Cycle 2 findings (latest)** | [`research/cycle2_findings.md`](research/cycle2_findings.md) |
+| **Cycle 3 findings (latest)** | [`research/cycle3_findings.md`](research/cycle3_findings.md) |
+| Cycle 2 findings | [`research/cycle2_findings.md`](research/cycle2_findings.md) |
 | **Principal research report (Cycle 1)** | [`research/REPORT.md`](research/REPORT.md) |
 | **Methods — data, sessions, DST, definitions, statistics, reproduction** | [`research/METHODS.md`](research/METHODS.md) |
 | Full interpretation, by evidence status | [`research/current_findings.md`](research/current_findings.md) |
@@ -102,6 +117,23 @@ expectancy, but the search was deliberately not expanded beyond them.
 
 Charts: [`charts/`](charts/) — conditional vs base rate, adjacent-weekday comparison, placebo,
 year-by-year, time-to-touch, first arrival, strategy expectancy, payoff geometry.
+
+## Cycle 3 headline
+
+**The extra range is two-sided in magnitude but not equally reliable on both sides, and shows
+no dependable reversal or continuation shape:**
+
+| topology question | answer |
+|---|---|
+| Two-sided expansion? | Yes in magnitude, in every cut — but the up-side effect is not distinguishable from control once the RTH tradeable state is isolated (+0.041 ATR, p=0.128), while the down-side survives (+0.117, p=0.001). Both sides survive on the 23h broker day. |
+| Reversal shape (rally then fail, or fail then rally)? | Real but too rare to trade (5.4% vs 2.6% of Mondays); no elevated bounce-back after the Friday-low touch (p=0.15–0.85). |
+| Continuation / non-directional construction? | Already tested and failed in Cycle 2 (D1–D4); a trailing/BE variant isn't justified — median adverse excursion meets or exceeds median favourable excursion in every reported cell. |
+
+**Classification: Outcome 1 — no simple futures/CFD edge. Recommend archiving as
+statistically interesting but non-tradeable with current instruments;** options/volatility is
+the only unexplored avenue, not begun here. See
+[`research/cycle3_findings.md`](research/cycle3_findings.md) for full evidence and the
+data-access caveat this cycle ran under.
 
 ## Cycle 2 headline
 
@@ -166,9 +198,18 @@ the relevant `derived/*.parquet` — they are small enough to transfer individua
 
 ## Next analytical step
 
-**None — Cycle 2 is submitted for independent review.** Research is paused pending that review.
+**None — Cycle 3 is submitted for independent review.** Research is paused pending that review.
+Cycle 4 was deliberately not started.
 
-Candidates for a subsequent mandate, not begun: a non-directional construction exploiting the
-one surviving path feature (+0.117 ATR of extra down-reach with unchanged up-reach in the
-tradeable state); ES/NQ intraday history to triple the independent time span for path work;
-a Dow cash series to test Hougaard's exact instrument.
+Cycle 3 closes the futures/CFD thread on this hypothesis (Outcome 1). What it leaves open, not
+begun:
+- Options/volatility instruments — a conditional realised-range expansion with no reliable
+  directional or sequencing edge is structurally a statement about implied volatility, not
+  price direction. No options data is in this library.
+- A literal, frozen Stage A/B run using the joint per-Monday derived data
+  (`c2_monday_path.parquet`, `c2_grid.parquet`) to settle the one topology question this cycle
+  could not answer from marginal statistics alone (genuine same-session two-sidedness vs.
+  cross-day averaging of random one-sided expansion) — blocked in this cycle's execution
+  environment by lack of access to that data, not by absence of a method.
+- ES/NQ intraday history to triple the independent time span for path work; a Dow cash series to
+  test Hougaard's exact instrument (carried over from Cycle 2, still not begun).
