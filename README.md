@@ -22,7 +22,7 @@ an initial ±0.25 ATR leg — was run on three coarse risk constructions. The si
 **none of the ten construction-cells has a mean R significantly above zero and every median R is
 negative**. The reason is arithmetic: the 0.445 ATR of extra post-cross movement is a *maximum
 favourable excursion*, and the same entries carry 0.385 ATR of adverse excursion, leaving ~0.06
-ATR of unrealisable margin. 2R is reached on 8–14% of signals. See
+ATR of unrealisable margin; 2R is reached on 8–14% of signals. No simple mechanically tradeable futures/CFD edge was found in the tested constructions, and the observed MFE/MAE geometry provides no evidence-based justification for further parameter search. See
 [`research/final_futures_test.md`](research/final_futures_test.md).
 
 ---

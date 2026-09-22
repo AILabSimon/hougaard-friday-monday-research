@@ -97,8 +97,7 @@ Broker day: triggered 0.508 vs 0.462 → +0.046; control 0.323 vs 0.348 → −0
 The trigger adds 0.168 ATR of favourable excursion — and 0.088 ATR of adverse excursion
 alongside it. What is left is a mean margin of **+0.06 ATR of unrealisable maxima**, against a
 round-trip cost of roughly 0.02 ATR and a stop that must survive a median adverse excursion of
-0.27–0.31 ATR. No stop/target pair separates the two distributions, because they overlap almost
-completely.
+0.27–0.31 ATR. The favourable and adverse distributions overlap heavily. No simple mechanically tradeable futures/CFD edge was found in the tested constructions, and the observed MFE/MAE geometry provides no evidence-based justification for further parameter search.
 
 The R-attainment ladder says the same thing against the programme's 2R+ objective:
 
@@ -108,7 +107,8 @@ The R-attainment ladder says the same thing against the programme's 2R+ objectiv
 | broker day (0.5 ATR stop) | 34.1% | **13.0%** | 5.4% |
 | RTH (structural stop) | 47.1% | 14.3% | 6.7% |
 
-Median MFE is 0.69–0.96 R against median MAE of 0.54–0.74 R. The geometry does not support 2R,
+Median MFE is 0.69–0.96 R against median MAE of 0.54–0.74 R. On this evidence the geometry does
+not support the 2R+ objective,
 and manufacturing a high win rate at sub-1R (S2a: 27.8% win at 1R) does not rescue it either —
 that construction is also negative.
 
@@ -126,7 +126,8 @@ that construction is also negative.
 - **FALSIFIED (F-F3)** — break-even management at +1R does not change the answer
   (RTH −0.042, broker +0.031, both n.s.).
 - **EXPLAINED (F-E1)** — the extra favourable excursion is accompanied by nearly equal extra
-  adverse excursion; the residual margin is ~0.06 ATR of maxima that no exit rule can realise.
+  adverse excursion; the residual margin is ~0.06 ATR of maxima that an exit rule cannot
+  realise. No simple mechanically tradeable futures/CFD edge was found in the tested constructions, and the observed MFE/MAE geometry provides no evidence-based justification for further parameter search.
 
 ## Known approximation
 
